@@ -21,7 +21,7 @@ TMP="/tmp/rec-nhk-radio"
 mkdir -p ${TMP}
 
 
-# チャンネルのURLをセットする。
+# エリアは関東としてチャンネルのURLをセットする。
 # http://www.nhk.or.jp/radio/config/config_web.xml を参照のこと。
 M3U8URL=""
 case ${CHANNEL} in
