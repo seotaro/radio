@@ -2,10 +2,11 @@
 
 # 変数とコマンド・予約語を区別したいので変数名は大文字にしている。
 
+LANG=ja_JP.utf8
 NOW=`date '+%s'`
 
 if [ $# -ne 5 ]; then
-  echo "usage: $0 {NHK1|NHK2|FM} {長さ(分)} {番組名} {番組パーソナリティ} {出力ディレクトリ}"
+  echo "usage: $0 {NHK1|NHK2|FM} 長さ(分) 番組名 番組パーソナリティ 出力ディレクトリ"
   exit 1
 fi
 
@@ -21,7 +22,7 @@ TMP="/tmp/rec-nhk-radio"
 mkdir -p ${TMP}
 
 
-# エリアは関東としてチャンネルのURLをセットする。
+# チャンネルのURLをセットする。
 # http://www.nhk.or.jp/radio/config/config_web.xml を参照のこと。
 M3U8URL=""
 case ${CHANNEL} in
@@ -53,6 +54,8 @@ METADATA_DATE=`date --date=@${NOW} '+%Y/%m/%d %H:%M:%S'`
 
 FILENAME="${PROGRAM_NAME} (`date --date=@${NOW} '+%Y%m%d_%H%M%S'`)"
 
+curl --silent ${M3U8URL} -o "${TMP}/${FILENAME}.m3u8"
+
 ffmpeg -loglevel quiet \
         -y -i ${M3U8URL} \
         -t ${DURATION} \
@@ -64,8 +67,19 @@ ffmpeg -loglevel quiet \
         -c copy "${TMP}/${FILENAME}.m4a"
 
 
+if [ $? -ne 0 ]; then
+  cp "${TMP}/${FILENAME}.m3u8" "${DIRECTORY}/${FILENAME}-before.m3u8"
+  curl --silent ${M3U8URL} -o "${DIRECTORY}/${FILENAME}-after.m3u8"
+  touch "${DIRECTORY}/${FILENAME}-error"
+
+  WEBHOOK_URL="https://hooks.slack.com/services/xxxxxxxxx/xxxxxxxxxxx/xxxxxxxxxxxxxxxxxxxxxxxx"
+  POST_MESSAGE="payload={\"channel\": \"#rec-radio-error\", \"username\": \"${HOSTNAME}\", \"text\": \"「${FILENAME}.m4a」の保存中にエラーが発生しました。\", \"icon_emoji\": \":scream:\"}"
+  curl --silent -X POST --data-urlencode "${POST_MESSAGE}" ${WEBHOOK_URL}
+fi
+
 mkdir -p "${DIRECTORY}"
 cp "${TMP}/${FILENAME}.m4a" "${DIRECTORY}/${FILENAME}.m4a"
 rm -f "${TMP}/${FILENAME}.m4a"
+rm -f "${TMP}/${FILENAME}.m3u8"
 
 exit 0
