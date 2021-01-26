@@ -23,34 +23,34 @@
 # m h  dom mon dow   command
 
 
-30 19 * * 1-5 /home/pi/media-server/raspberrypi/rec-nhk-radio.sh FM  101 "ベストオブクラシック" "" "/mnt/nas/m4a/NHK FM/ベストオブクラシック"
- 0 18 * * 6   /home/pi/media-server/raspberrypi/rec-nhk-radio.sh FM   51 "ザ・ソウルミュージックII" "村上 てつや" "/mnt/nas/m4a/NHK FM/ザ・ソウルミュージックII"
-20 19 * * 6   /home/pi/media-server/raspberrypi/rec-nhk-radio.sh FM  101 "N響 ザ・レジェンド" "檀 ふみ / 池辺 晋一郎" "/mnt/nas/m4a/NHK FM/N響 ザ・レジェンド"
- 0 23 * * 6   /home/pi/media-server/raspberrypi/rec-nhk-radio.sh FM  121 "ジャズ・トゥナイト" "大友 良英" "/mnt/nas/m4a/NHK FM/ジャズ・トゥナイト"
-#30  8 * * 1-5 /home/pi/media-server/raspberrypi/rec-nhk-radio.sh NHK2 10 "英会話タイムトライアル" "スティーブ・ソレイシィ" "/mnt/nas/m4a/NHK NHK2/英会話タイムトライアル"
- 0  7 * * 6   /home/pi/media-server/raspberrypi/rec-nhk-radio.sh NHK2 50 "英会話タイムトライアル" "スティーブ・ソレイシィ" "/mnt/nas/m4a/NHK NHK2/英会話タイムトライアル"
+30 19 * * 1-5 /home/pi/radio/rec-nhk-radio.sh FM  101 "ベストオブクラシック" "" "/mnt/nas/radio/NHK FM/ベストオブクラシック"
+ 0 18 * * 6   /home/pi/radio/rec-nhk-radio.sh FM   51 "ザ・ソウルミュージックII" "村上 てつや" "/mnt/nas/radio/NHK FM/ザ・ソウルミュージックII"
+20 19 * * 6   /home/pi/radio/rec-nhk-radio.sh FM  101 "N響 ザ・レジェンド" "檀 ふみ / 池辺 晋一郎" "/mnt/nas/radio/NHK FM/N響 ザ・レジェンド"
+ 0 23 * * 6   /home/pi/radio/rec-nhk-radio.sh FM  121 "ジャズ・トゥナイト" "大友 良英" "/mnt/nas/radio/NHK FM/ジャズ・トゥナイト"
+#30  8 * * 1-5 /home/pi/radio/rec-nhk-radio.sh NHK2 10 "英会話タイムトライアル" "スティーブ・ソレイシィ" "/mnt/nas/radio/NHK NHK2/英会話タイムトライアル"
+ 0  7 * * 6   /home/pi/radio/rec-nhk-radio.sh NHK2 50 "英会話タイムトライアル" "スティーブ・ソレイシィ" "/mnt/nas/radio/NHK NHK2/英会話タイムトライアル"
 
 
-#10 1,4,7,10,13,16,19,22 * * * /home/pi/media-server/raspberrypi/rec-nhk-radio.sh FM 120 "テストテスト" "テストマン" "/mnt/nas/m4a/NHK FM/テスト"
-#0 0,3,6,9,12,15,18,21  * * * /home/pi/media-server/raspberrypi/rec-nhk-radio.sh FM 120 "テストテスト2" "テストマン2" "/mnt/nas/m4a/NHK FM/テスト2"
-#55 * * * * /home/pi/media-server/raspberrypi/rec-nhk-radio.sh FM 1 "ジャズ・トゥナイト" "大友 良英" "/mnt/nas/m4a/NHK FM/ジャズ・トゥナイト"
-#19 * * * * /home/pi/media-server/raspberrypi/rec-nhk-radio.sh FM 1 "テストテスト3" "テストマン3" "/mnt/nas/m4a/NHK FM/テスト"
-#57 * * * * /home/pi/media-server/raspberrypi/rec-nhk-radio.sh NHK2 1 "英会話タイムトライアル" "スティーブ・ソレイシィ" "/mnt/nas/m4a/NHK NHK2/英会話タイムトライアル"
-#58 * * * * /home/pi/media-server/raspberrypi/rec-nhk-radio.sh NHK2 1 "英会話タイムトライアル" "スティーブ・ソレイシィ" "/mnt/nas/m4a/NHK NHK2/英会話タイムトライアル"
+#10 1,4,7,10,13,16,19,22 * * * /home/pi/radio/rec-nhk-radio.sh FM 120 "テストテスト" "テストマン" "/mnt/nas/radio/NHK FM/テスト"
+#0 0,3,6,9,12,15,18,21  * * * /home/pi/radio/rec-nhk-radio.sh FM 120 "テストテスト2" "テストマン2" "/mnt/nas/radio/NHK FM/テスト2"
+#55 * * * * /home/pi/radio/rec-nhk-radio.sh FM 1 "ジャズ・トゥナイト" "大友 良英" "/mnt/nas/radio/NHK FM/ジャズ・トゥナイト"
+#19 * * * * /home/pi/radio/rec-nhk-radio.sh FM 1 "テストテスト3" "テストマン3" "/mnt/nas/radio/NHK FM/テスト"
+#57 * * * * /home/pi/radio/rec-nhk-radio.sh NHK2 1 "英会話タイムトライアル" "スティーブ・ソレイシィ" "/mnt/nas/radio/NHK NHK2/英会話タイムトライアル"
+#58 * * * * /home/pi/radio/rec-nhk-radio.sh NHK2 1 "英会話タイムトライアル" "スティーブ・ソレイシィ" "/mnt/nas/radio/NHK NHK2/英会話タイムトライアル"
 
 
 # TBS=TBSラジオ, QRR=文化放送, LFR=ニッポン放送, INT=InterFM897,
 # FMT=TOKYO FM, FMJ=J-WAVE, JORF=ラジオ日本, BAYFM78=bayfm78,
 # NACK5=NACK5, YFM=FMヨコハマ, ...
- 0 23 * * 6 /home/pi/media-server/raspberrypi/rec-radiko.sh JORF     61 "オトナのJAZZ TIME" "紗理" "/mnt/nas/m4a/ラジオ日本/オトナのJAZZ TIME"
- 0  9 * * 6 /home/pi/media-server/raspberrypi/rec-radiko.sh YFM     121 "FUTURESCAPE" "小山 薫堂 / 柳井 麻希" "/mnt/nas/m4a/FMヨコハマ/FUTURESCAPE"
- 0 12 * * 7 /home/pi/media-server/raspberrypi/rec-radiko.sh YFM      31 "FLYING HEART" "石井 竜也" "/mnt/nas/m4a/FMヨコハマ/FLYING HEART"
-30  2 * * 6 /home/pi/media-server/raspberrypi/rec-radiko.sh YFM      31 "濱ジャズ" "ゴンザレス鈴木" "/mnt/nas/m4a/FMヨコハマ/濱ジャズ"
- 0 23 * * 6 /home/pi/media-server/raspberrypi/rec-radiko.sh FMT      56 "桑田佳祐のやさしい夜遊び" "桑田 佳祐" "/mnt/nas/m4a/TOKYO FM/桑田佳祐のやさしい夜遊び"
- 0 13 * * 7 /home/pi/media-server/raspberrypi/rec-radiko.sh FMT      56 "DREAMS COME TRUE 中村正人のENERGY for ALL" "中村 正人" "/mnt/nas/m4a/TOKYO FM/DREAMS COME TRUE 中村正人のENERGY for ALL"
- 0 14 * * 7 /home/pi/media-server/raspberrypi/rec-radiko.sh FMT      56 "山下達郎のサンデー・ソングブック" "山下 達郎" "/mnt/nas/m4a/TOKYO FM/山下達郎のサンデー・ソングブック"
- 0 21 * * 7 /home/pi/media-server/raspberrypi/rec-radiko.sh FMT      56 "SPITZ 草野マサムネのロック大陸漫遊記" "草野 マサムネ" "/mnt/nas/m4a/TOKYO FM/SPITZ 草野マサムネのロック大陸漫遊記"
- 0  3 * * 1 /home/pi/media-server/raspberrypi/rec-radiko.sh BAYFM78  28 "PONTSUKA!!" "BUMP OF CHICKEN" "/mnt/nas/m4a/bayfm78/PONTSUKA!!"
- 0 17 * * 7 /home/pi/media-server/raspberrypi/rec-radiko.sh QRR      31 "純次と直樹" "高田 純次 / 浦沢 直樹" "/mnt/nas/m4a/文化放送/純次と直樹"
+ 0 23 * * 6 /home/pi/radio/rec-radiko.sh JORF     61 "オトナのJAZZ TIME" "紗理" "/mnt/nas/radio/ラジオ日本/オトナのJAZZ TIME"
+ 0  9 * * 6 /home/pi/radio/rec-radiko.sh YFM     121 "FUTURESCAPE" "小山 薫堂 / 柳井 麻希" "/mnt/nas/radio/FMヨコハマ/FUTURESCAPE"
+ 0 12 * * 7 /home/pi/radio/rec-radiko.sh YFM      31 "FLYING HEART" "石井 竜也" "/mnt/nas/radio/FMヨコハマ/FLYING HEART"
+30  2 * * 6 /home/pi/radio/rec-radiko.sh YFM      31 "濱ジャズ" "ゴンザレス鈴木" "/mnt/nas/radio/FMヨコハマ/濱ジャズ"
+ 0 23 * * 6 /home/pi/radio/rec-radiko.sh FMT      56 "桑田佳祐のやさしい夜遊び" "桑田 佳祐" "/mnt/nas/radio/TOKYO FM/桑田佳祐のやさしい夜遊び"
+ 0 13 * * 7 /home/pi/radio/rec-radiko.sh FMT      56 "DREAMS COME TRUE 中村正人のENERGY for ALL" "中村 正人" "/mnt/nas/radio/TOKYO FM/DREAMS COME TRUE 中村正人のENERGY for ALL"
+ 0 14 * * 7 /home/pi/radio/rec-radiko.sh FMT      56 "山下達郎のサンデー・ソングブック" "山下 達郎" "/mnt/nas/radio/TOKYO FM/山下達郎のサンデー・ソングブック"
+ 0 21 * * 7 /home/pi/radio/rec-radiko.sh FMT      56 "SPITZ 草野マサムネのロック大陸漫遊記" "草野 マサムネ" "/mnt/nas/radio/TOKYO FM/SPITZ 草野マサムネのロック大陸漫遊記"
+ 0  3 * * 1 /home/pi/radio/rec-radiko.sh BAYFM78  28 "PONTSUKA!!" "BUMP OF CHICKEN" "/mnt/nas/radio/bayfm78/PONTSUKA!!"
+ 0 17 * * 7 /home/pi/radio/rec-radiko.sh QRR      31 "純次と直樹" "高田 純次 / 浦沢 直樹" "/mnt/nas/radio/文化放送/純次と直樹"
 
 
