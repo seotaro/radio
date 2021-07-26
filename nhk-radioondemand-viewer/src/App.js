@@ -1,8 +1,9 @@
 
+import List from './Component/List';
+
 function App() {
   return (
-    <div className="App">
-    </div>
+    <List />
   );
 }
 
