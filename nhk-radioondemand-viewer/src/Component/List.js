@@ -94,10 +94,9 @@ function List() {
                     return JSON.parse(text);
                 })
                 .then(index => {
-                    const items = index.data_list.map((x, i) => {
+                    return index.data_list.map((x, i) => {
                         return { ...x, media_codes: x.media_code.split(','), id: i }     // DataGrid で扱うのに ID を付加してやる。
                     });
-                    return items;
                 })
                 .catch((error) => {
                     console.error(error)
@@ -129,7 +128,7 @@ function List() {
             <Grid item xs={12} className={classes.headerGrid} >
                 <h1 className={classes.title}>NHK radio on demand</h1>
 
-                {<FormControl className={classes.formControl}>
+                <FormControl className={classes.formControl}>
                     <Select
                         labelId="select-type-label"
                         id="select-type"
@@ -139,7 +138,7 @@ function List() {
                         <MenuItem key={NONE} value={NONE}>{NONE}</MenuItem>
                         {Object.keys(MEDIA_CODES).map(type => <MenuItem key={type} value={type}>{MEDIA_CODES[type]}</MenuItem>)}
                     </Select>
-                </FormControl>}
+                </FormControl>
             </Grid>
             <Grid item xs={12} className={classes.dataGrid}>
                 <DataGrid
