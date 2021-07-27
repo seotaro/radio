@@ -8,13 +8,19 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import moment from 'moment';
 
+const NONE = '（none）';
+const MEDIA_CODES = { '05': 'R1', '06': 'R2', '07': 'FM' };
+
 const url = `https://www.nhk.or.jp/radioondemand/json/index_v3/index.json`;
 
 const columns = [
     { field: 'site_id', headerName: 'site_id', type: 'string', width: 100, },
     { field: 'program_name', headerName: 'program_name', type: 'string', width: 200, },
     { field: 'program_name_kana', headerName: 'program_name_kana', type: 'string', width: 200, },
-    { field: 'media_code', headerName: 'media_code', type: 'string', width: 100, },
+    {
+        field: 'media_codes', headerName: 'media_code', type: 'string', width: 100,
+        valueFormatter: ({ value }) => { return value.map(x => MEDIA_CODES[x]).join(','); },
+    },
     { field: 'corner_id', headerName: 'corner_id', type: 'string', width: 100, },
     { field: 'corner_name', headerName: 'corner_name', type: 'string', width: 200, },
     {
@@ -73,43 +79,83 @@ function List() {
 
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [filter, setFilter] = useState(NONE);
 
     useEffect(() => {
         (async () => {
             setLoading(true);
 
-            const index = await fetch(url)
+            const items = await fetch(url)
                 .then(response => {
                     return response.text();
                 })
                 .then(text => {
                     return JSON.parse(text);
                 })
+                .then(index => {
+                    const items = index.data_list.map((x, i) => {
+                        return { ...x, media_codes: x.media_code.split(','), id: i }     // DataGrid で扱うのに ID を付加してやる。
+                    });
+                    return items;
+                })
                 .catch((error) => {
                     console.error(error)
                 })
 
-            setItems(index.data_list.map((x, i) => { return { ...x, id: i } }));    // DataGrid で扱うのに ID を付加してやる。
+            setItems(items);
 
             setLoading(false);
         })();
     }, []);
+
+    useEffect(() => {
+
+        (async () => {
+            setLoading(true);
+
+            const items = await fetch(url)
+                .then(response => {
+                    return response.text();
+                })
+                .then(text => {
+                    return JSON.parse(text);
+                })
+                .then(index => {
+                    const items = index.data_list.map((x, i) => {
+                        return { ...x, media_codes: x.media_code.split(','), id: i }     // DataGrid で扱うのに ID を付加してやる。
+                    });
+                    return items;
+                })
+                .catch((error) => {
+                    console.error(error)
+                })
+
+            if (filter === NONE) {
+                setItems(items);
+            } else {
+                setItems(items.filter(x => x.media_codes.includes(filter)));
+            }
+
+            setLoading(false);
+        })();
+    }, [filter]);
 
     return (
         <Grid container spacing={0} className={classes.root}>
             <Grid item xs={12} className={classes.headerGrid} >
                 <h1 className={classes.title}>NHK radio on demand</h1>
 
-                {/* <FormControl className={classes.formControl}>
+                {<FormControl className={classes.formControl}>
                     <Select
                         labelId="select-type-label"
                         id="select-type"
                         value={filter}
                         onChange={e => { setFilter(e.target.value) }}
                     >
-                        {types.map(type => <MenuItem key={type} value={type}>{type}</MenuItem>)}
+                        <MenuItem key={NONE} value={NONE}>{NONE}</MenuItem>
+                        {Object.keys(MEDIA_CODES).map(type => <MenuItem key={type} value={type}>{MEDIA_CODES[type]}</MenuItem>)}
                     </Select>
-                </FormControl> */}
+                </FormControl>}
             </Grid>
             <Grid item xs={12} className={classes.dataGrid}>
                 <DataGrid
@@ -119,7 +165,8 @@ function List() {
                     headerHeight={30}
                     rowHeight={30}
                     pagination
-                    autoPageSize={true}
+                    pageSize={100}
+                    rowsPerPageOptions={[25, 50, 100]}
                     loading={loading}
                     hideFooterSelectedRowCount={true}
                 />
