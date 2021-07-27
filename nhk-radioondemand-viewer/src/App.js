@@ -8,6 +8,7 @@ const URL = `https://www.nhk.or.jp/radioondemand/json/index_v3/index.json`;
 function App() {
 
   const [items, setItems] = useState([]);
+  const [lastModified, setLastModified] = useState(null);
   const [isLoading, setLoading] = useState(false);
   const [detailUrl, setDetailUrl] = useState(null);
   const [isOpenDetail, setOpenDetail] = useState(false);
@@ -16,9 +17,10 @@ function App() {
     (async () => {
       setLoading(true);
 
+      let lastModified = null;
       const items = await fetch(URL)
         .then(response => {
-          const lastModified = response.headers.get('Last-Modified');
+          lastModified = new Date(response.headers.get('Last-Modified'));
           return response.text();
         })
         .then(text => {
@@ -33,6 +35,7 @@ function App() {
           console.error(error)
         })
 
+      setLastModified(lastModified);
       setItems(items);
 
       setLoading(false);
@@ -51,7 +54,7 @@ function App() {
 
   return (
     <Fragment>
-      <List items={items} isLoading={isLoading} onRowClick={onRowClick} />
+      <List items={items} lastModified={lastModified} isLoading={isLoading} onRowClick={onRowClick} />
       <Detail isOpen={isOpenDetail} url={detailUrl} onClose={onCloseDetail} />
     </Fragment>
   );

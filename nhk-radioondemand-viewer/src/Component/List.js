@@ -75,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
 function List(props) {
     const classes = useStyles();
 
-    const { items, isLoading, onRowClick } = props;
+    const { items, lastModified, isLoading, onRowClick } = props;
 
     const [filteredItems, setFilteredItems] = useState([]);
     const [filter, setFilter] = useState(NONE);
@@ -91,7 +91,7 @@ function List(props) {
     return (
         <Grid container spacing={0} className={classes.root}>
             <Grid item xs={12} className={classes.headerGrid} >
-                <h1 className={classes.title}>NHK radio on demand</h1>
+                <h1 className={classes.title}>NHK radio on demand（Last-Modified: {lastModified ? moment(lastModified).format() : ''}）</h1>
 
                 <FormControl className={classes.formControl}>
                     <Select
