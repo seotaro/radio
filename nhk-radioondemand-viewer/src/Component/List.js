@@ -74,8 +74,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function List() {
+function List(props) {
     const classes = useStyles();
+
+    const { onRowClick } = props;
 
     const [items, setItems] = useState([]);
     const [filteredItems, setFilteredItems] = useState([]);
@@ -152,6 +154,7 @@ function List() {
                     rowsPerPageOptions={[25, 50, 100]}
                     loading={loading}
                     hideFooterSelectedRowCount={true}
+                    onRowClick={onRowClick}
                 />
             </Grid>
         </Grid>
