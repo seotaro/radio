@@ -78,6 +78,7 @@ function List() {
     const classes = useStyles();
 
     const [items, setItems] = useState([]);
+    const [filteredItems, setFilteredItems] = useState([]);
     const [loading, setLoading] = useState(false);
     const [filter, setFilter] = useState(NONE);
 
@@ -113,32 +114,15 @@ function List() {
         (async () => {
             setLoading(true);
 
-            const items = await fetch(url)
-                .then(response => {
-                    return response.text();
-                })
-                .then(text => {
-                    return JSON.parse(text);
-                })
-                .then(index => {
-                    const items = index.data_list.map((x, i) => {
-                        return { ...x, media_codes: x.media_code.split(','), id: i }     // DataGrid で扱うのに ID を付加してやる。
-                    });
-                    return items;
-                })
-                .catch((error) => {
-                    console.error(error)
-                })
-
             if (filter === NONE) {
-                setItems(items);
+                setFilteredItems(items);
             } else {
-                setItems(items.filter(x => x.media_codes.includes(filter)));
+                setFilteredItems(items.filter(x => x.media_codes.includes(filter)));
             }
 
             setLoading(false);
         })();
-    }, [filter]);
+    }, [items, filter]);
 
     return (
         <Grid container spacing={0} className={classes.root}>
@@ -159,7 +143,7 @@ function List() {
             </Grid>
             <Grid item xs={12} className={classes.dataGrid}>
                 <DataGrid
-                    rows={items}
+                    rows={filteredItems}
                     columns={columns}
                     disableColumnMenu={true}
                     headerHeight={30}
