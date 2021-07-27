@@ -11,8 +11,6 @@ import moment from 'moment';
 const NONE = '（none）';
 const MEDIA_CODES = { '05': 'R1', '06': 'R2', '07': 'FM' };
 
-const url = `https://www.nhk.or.jp/radioondemand/json/index_v3/index.json`;
-
 const columns = [
     { field: 'site_id', headerName: 'site_id', type: 'string', width: 100, },
     { field: 'program_name', headerName: 'program_name', type: 'string', width: 200, },
@@ -77,52 +75,17 @@ const useStyles = makeStyles((theme) => ({
 function List(props) {
     const classes = useStyles();
 
-    const { onRowClick } = props;
+    const { items, isLoading, onRowClick } = props;
 
-    const [items, setItems] = useState([]);
     const [filteredItems, setFilteredItems] = useState([]);
-    const [loading, setLoading] = useState(false);
     const [filter, setFilter] = useState(NONE);
 
     useEffect(() => {
-        (async () => {
-            setLoading(true);
-
-            const items = await fetch(url)
-                .then(response => {
-                    return response.text();
-                })
-                .then(text => {
-                    return JSON.parse(text);
-                })
-                .then(index => {
-                    return index.data_list.map((x, i) => {
-                        return { ...x, media_codes: x.media_code.split(','), id: i }     // DataGrid で扱うのに ID を付加してやる。
-                    });
-                })
-                .catch((error) => {
-                    console.error(error)
-                })
-
-            setItems(items);
-
-            setLoading(false);
-        })();
-    }, []);
-
-    useEffect(() => {
-
-        (async () => {
-            setLoading(true);
-
-            if (filter === NONE) {
-                setFilteredItems(items);
-            } else {
-                setFilteredItems(items.filter(x => x.media_codes.includes(filter)));
-            }
-
-            setLoading(false);
-        })();
+        if (filter === NONE) {
+            setFilteredItems(items);
+        } else {
+            setFilteredItems(items.filter(x => x.media_codes.includes(filter)));
+        }
     }, [items, filter]);
 
     return (
@@ -152,7 +115,7 @@ function List(props) {
                     pagination
                     pageSize={100}
                     rowsPerPageOptions={[25, 50, 100]}
-                    loading={loading}
+                    loading={isLoading}
                     hideFooterSelectedRowCount={true}
                     onRowClick={onRowClick}
                 />
