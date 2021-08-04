@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { DataGrid } from '@material-ui/data-grid';
 import Box from '@material-ui/core/Box';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -34,6 +35,10 @@ const columns = [
     { field: 'aa_vinfo2', headerName: 'file_list.aa_vinfo2', type: 'string', width: 200, },
     { field: 'aa_vinfo3', headerName: 'file_list.aa_vinfo3', type: 'string', width: 200, },
     { field: 'aa_vinfo4', headerName: 'file_list.aa_vinfo4', type: 'string', width: 200, },
+    {
+        field: 'ffmpegCommandLine', headerName: 'ffmpeg command line', type: 'string', width: 200,
+        renderCell: (params) => <FileCopyIcon variant="contained" color="primary" onClick={() => onClickCopyFfmpegCommandLine(params.value)} />
+    },
 ];
 
 const useStyles = makeStyles((theme) => ({
@@ -57,6 +62,29 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+
+const makeFfmpegCommandLine = (programName, file) => {
+    const datetimes = file.aa_vinfo4.split('_');
+    const start = new Date(datetimes[0]);
+
+    const command = [
+        `ffmpeg`,
+        `-y -i ${file.file_name.split('?')[0]}`,
+        `-metadata genre="ラジオ"`,
+        `-metadata album_artist=""`,
+        `-metadata title="${file.file_title}"`,
+        `-metadata album="${programName}"`,
+        `-metadata date="${moment(start).format("YYYY-MM-DD HH:mm:ss")}"`,
+        `-metadata comment="${file.file_title_sub}"`,
+        `-c copy "${programName}（${moment(start).format("YYYY-MM-DD HH:mm:ss")}）.m4a"`
+    ];
+
+    return command.join(' ');
+}
+
+const onClickCopyFfmpegCommandLine = (aaa) => {
+    navigator.clipboard.writeText(aaa);
+}
 
 function Detail(props) {
     const classes = useStyles();
@@ -109,8 +137,15 @@ function Detail(props) {
             switch (key) {
                 case 'detail_list':
                     const detailList = detail.main.detail_list.map((x, i) => {
-                        return { ...x, ...x.file_list[0], id: i }     // DataGrid で扱うのに ID を付加してやる。
-                    })
+                        // DataGrid で扱うのに ID を付加してやる。
+                        return {
+                            ...x,
+                            ...x.file_list[0],
+                            id: i,
+                            ffmpegCommandLine: makeFfmpegCommandLine(detail.main.program_name, x.file_list[0])
+                        }
+                    });
+
                     const datagrid = (
                         <Box className={classes.dataGrid}>
                             <DataGrid
@@ -124,7 +159,9 @@ function Detail(props) {
                                 rowsPerPageOptions={[100]}
                                 hideFooterSelectedRowCount={true}
                             />
-                        </Box>);
+                        </Box>
+                    );
+
                     contents.push(<li id={key}>{key} : {datagrid}</li>);
                     break;
 
