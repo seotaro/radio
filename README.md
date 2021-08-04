@@ -170,7 +170,6 @@ ffmpeg でダウンロードしてみる。
 
 ```make
 M3U8URL := https://nhks-vh.akamaihd.net/i/radioondemand/r/449/s/stream_449_8a922946f2b853d78d898c942c86dc93.mp4/master.m3u8
-DURATION := 120
 TMP := tmp
 FILENAME := filename
 
@@ -185,7 +184,6 @@ download:
 	mkdir -p ${TMP}
 	ffmpeg  \
 			-y -i ${M3U8URL} \
-			-t ${DURATION} \
 			-metadata genre="${METADATA_GENRE}" \
 			-metadata album_artist="${METADATA_ALBUM_ARTIST}" \
 			-metadata title="${METADATA_TITLE}" \
