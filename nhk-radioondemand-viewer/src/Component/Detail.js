@@ -66,9 +66,11 @@ const useStyles = makeStyles((theme) => ({
 const makeFfmpegCommandLine = (programName, file) => {
     const datetimes = file.aa_vinfo4.split('_');
     const start = new Date(datetimes[0]);
-
+    const end = new Date(datetimes[1]);
+    const duration = (end - start) / 1000 - 1; // [秒]
     const command = [
         `ffmpeg`,
+        `-t ${duration}`,
         `-y -i ${file.file_name.split('?')[0]}`,
         `-metadata genre="ラジオ"`,
         `-metadata album_artist=""`,
@@ -76,7 +78,7 @@ const makeFfmpegCommandLine = (programName, file) => {
         `-metadata album="${programName}"`,
         `-metadata date="${moment(start).format("YYYY-MM-DD HH:mm:ss")}"`,
         `-metadata comment="${file.file_title_sub}"`,
-        `-c copy "${programName}（${moment(start).format("YYYY-MM-DD HH:mm:ss")}）.m4a"`
+        `-c copy "${programName}（${moment(start).format("YYYYMMDD_HHmmss")}）.m4a"`
     ];
 
     return command.join(' ');
