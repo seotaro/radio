@@ -46,7 +46,14 @@ create-cloud-resouces:
 		--min-retry-delay=10
 
 	gcloud pubsub topics create $(PUBSUB_NOTIFY_FILE_TOPIC)
-	
+	gcloud pubsub subscriptions create $(PUBSUB_NOTIFY_FILE_SUBSCRIPTION) \
+		--project=$(PROJECT_ID) \
+		--topic-project=$(PROJECT_ID) \
+		--topic=$(PUBSUB_NOTIFY_FILE_TOPIC) \
+		--ack-deadline=300 \
+		--max-retry-delay=600 \
+		--min-retry-delay=10
+
 deploy:
 	gcloud builds submit . --tag asia.gcr.io/$(PROJECT_ID)/$(PARSE_DETAIL_APP) --project $(PROJECT_ID) 
 	gcloud run deploy $(PARSE_DETAIL_APP) \
