@@ -57,6 +57,7 @@ const makeFfmpegCommandLine = (directory, programName, file) => {
     const duration = (end - start) / 1000 - 1; // [秒]
     const command = [
         `ffmpeg`,
+        `-loglevel error`,
         `-t ${duration}`,
         `-y -i ${file.file_name.split('?')[0]}`,
         `-metadata genre="ラジオ"`,
