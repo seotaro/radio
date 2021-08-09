@@ -126,7 +126,7 @@ async function insertDatabase(model) {
     const key = datastore.key([DATASTORE_KIND, model.main.detail.file.file_id]);
     const entity = {
         key: key,
-        data: { ...model, createdAt: new Date() },
+        data: { program_name: model.main.program_name, detail_json: model, createdAt: new Date() },
     };
 
     return datastore.save(entity);
