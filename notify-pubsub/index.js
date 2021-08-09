@@ -93,7 +93,7 @@ async function parse(url) {
 
             try {
                 await insertDatabase(item);
-                await publishPubSub({ item });
+                await publishPubSub(item);
 
                 console.log(`${now()} published file_id=${item.main.detail.file.file_id}`);
 
