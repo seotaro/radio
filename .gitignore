@@ -5,6 +5,7 @@
 /nhk-radioondemand-viewer/.pnp
 /nhk-radioondemand-viewer.pnp.js
 /notify-pubsub/node_modules
+/download/node_modules
 
 # testing
 /nhk-radioondemand-viewer/coverage
