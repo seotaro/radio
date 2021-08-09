@@ -34,6 +34,15 @@ create-cloud-resouces:
 
 	gcloud iam service-accounts keys create key.json --iam-account $(SERVICE_ACCOUNT)@$(PROJECT_ID).iam.gserviceaccount.com
 
+	gcloud pubsub subscriptions create $(PUBSUB_NOTIFY_CRAWLER_SUBSCRIPTION) \
+		--project=$(PROJECT_ID) \
+		--topic-project=$(CRAWLER_PROJECT_ID) \
+		--topic=$(PUBSUB_NOTIFY_CRAWLER_TOPIC) \
+		--push-endpoint=https://parse-detail-uciiwceb4a-an.a.run.app \
+		--push-auth-service-account=$(SERVICE_ACCOUNT)@$(PROJECT_ID).iam.gserviceaccount.com \
+		--ack-deadline=30 \
+		--max-retry-delay=600 \
+		--min-retry-delay=10
 
 	gcloud pubsub topics create $(PUBSUB_NOTIFY_FILE_TOPIC)
 	
