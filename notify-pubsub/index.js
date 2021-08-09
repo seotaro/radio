@@ -8,9 +8,7 @@ const { PubSub } = require("@google-cloud/pubsub");
 
 const DATASTORE_KIND = 'nhk-radio-on-demand';
 
-const datastore = new Datastore({
-    projectId: process.env.GOOGLE_CLOUD_PROJECT,
-});
+const datastore = new Datastore();
 
 const pubsub = new PubSub();
 

@@ -33,7 +33,8 @@ create-cloud-resouces:
 	gcloud projects add-iam-policy-binding $(PROJECT_ID) --member=serviceAccount:service-$(PROJECT_NUMBER)@gcp-sa-pubsub.iam.gserviceaccount.com --role=roles/iam.serviceAccountTokenCreator
 
 	gcloud iam service-accounts keys create key.json --iam-account $(SERVICE_ACCOUNT)@$(PROJECT_ID).iam.gserviceaccount.com
-
+	gcloud auth activate-service-account --key-file=key.json
+	
 	gcloud pubsub subscriptions create $(PUBSUB_NOTIFY_CRAWLER_SUBSCRIPTION) \
 		--project=$(PROJECT_ID) \
 		--topic-project=$(CRAWLER_PROJECT_ID) \
