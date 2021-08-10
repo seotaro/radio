@@ -6,49 +6,54 @@ const moment = require('moment');
 const fs = require('fs');
 const { execSync } = require('child_process');
 
-const { PubSub } = require('@google-cloud/pubsub');
-
 const DIRECTORY = process.env.DIRECTORY || '.';
 fs.mkdirSync(DIRECTORY, { recursive: true });
 
-const client = new PubSub();
+const { v1 } = require('@google-cloud/pubsub');
 
-function listenForMessages() {
-    const subscription = client.subscription(process.env.SUBSCRIPTION);
+const client = new v1.SubscriberClient();
 
-    // メッセージハンドラー
-    const messageHandler = message => {
-        console.log(`Received message ${message.id}:`);
-        const item = JSON.parse(message.data);
+async function synchronousPull() {
+    const subscription = client.subscriptionPath(
+        process.env.GOOGLE_CLOUD_PROJECT,
+        process.env.SUBSCRIPTION
+    );
+
+    const request = {
+        subscription: subscription,
+        maxMessages: 10,
+    };
+
+    const [response] = await client.pull(request);
+
+    for (const message of response.receivedMessages) {
+        console.log(`${(new Date()).toISOString()} ${message.message.messageId} Received message`);
+        const item = JSON.parse(message.message.data);
 
         try {
             const command = makeFfmpegCommandLine(DIRECTORY, item.main.program_name, item.main.detail.file);
             fs.mkdirSync(`${DIRECTORY}/${item.main.program_name}`, { recursive: true });
             execSync(command)
 
-            message.ack();
+            const ackRequest = {
+                subscription: subscription,
+                ackIds: [message.ackId],
+            };
+            await client.acknowledge(ackRequest);
 
-            console.log(`download program_name=${item.main.program_name} file_id=${item.main.detail.file.file_id}`);
+            console.log(`${(new Date()).toISOString()} ${message.message.messageId} download program_name=${item.main.program_name} file_id=${item.main.detail.file.file_id}`);
 
         } catch (err) {
-            console.error(`program_name=${item.main.program_name} file_id=${item.main.detail.file.file_id} is ${err}`);
+            console.error(`${(new Date()).toISOString()} ${message.message.messageId} program_name=${item.main.program_name} file_id=${item.main.detail.file.file_id} is ${err}`);
         }
-    };
-
-    // エラーハンドラー
-    const errorHandler = function (error) {
-        console.error(`ERROR: ${error}`);
-        throw error;
-    };
-
-    subscription.on('message', messageHandler);
-    subscription.on('error', errorHandler);
+    }
 }
 
-listenForMessages();
-
-
-
+(async () => {
+    while (true) {
+        await synchronousPull().catch(console.error);
+    }
+})();
 
 const makeFfmpegCommandLine = (directory, programName, file) => {
     const datetimes = file.aa_vinfo4.split('_');
