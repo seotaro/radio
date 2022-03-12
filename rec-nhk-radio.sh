@@ -29,15 +29,15 @@ WEBHOOK_URL="https://hooks.slack.com/services/xxxxxxxxx/xxxxxxxxxxx/xxxxxxxxxxxx
 M3U8URL=""
 case ${CHANNEL} in
     "NHK1")
-      M3U8URL="https://nhkradioakr1-i.akamaihd.net/hls/live/511633/1-r1/1-r1-01.m3u8"
+      M3U8URL="https://radio-stream.nhk.jp/hls/live/2023229/nhkradiruakr1/master.m3u8"
       ;;
     
     "NHK2")
-      M3U8URL="https://nhkradioakr2-i.akamaihd.net/hls/live/511929/1-r2/1-r2-01.m3u8"
+      M3U8URL="https://radio-stream.nhk.jp/hls/live/2023501/nhkradiruakr2/master.m3u8"
       ;;
 
     "FM")
-      M3U8URL="https://nhkradioakfm-i.akamaihd.net/hls/live/512290/1-fm/1-fm-01.m3u8"
+      M3U8URL="https://radio-stream.nhk.jp/hls/live/2023507/nhkradiruakfm/master.m3u8"
       ;;
 
     *)
