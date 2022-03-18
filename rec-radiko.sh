@@ -30,21 +30,6 @@ mkdir -p ${TMP}
 # slack web hook URL
 WEBHOOK_URL="https://hooks.slack.com/services/xxxxxxxxx/xxxxxxxxxxx/xxxxxxxxxxxxxxxxxxxxxxxx"
 
-#
-# プレーヤーを取得する。
-# 
-PLAYER_URL="http://radiko.jp/apps/js/flash/myplayer-release.swf"
-PLAYER_FILE="${TMP}/player.swf"
-
-if [ ! -f ${PLAYER_FILE} ]; then
-  wget -q -O ${PLAYER_FILE} ${PLAYER_URL}
-
-  if [ $? -ne 0 ]; then
-    echo "failed get player"
-    exit 1
-  fi
-fi
-
 
 #
 # access auth1_fms
