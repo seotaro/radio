@@ -6,10 +6,10 @@ After=network.target
 Type=simple
 Restart=always
 RestartSec=10
-User=pi
-Group=pi
-WorkingDirectory=/home/pi/github/seotaro/radio/download
-ExecStart=node /home/pi/github/seotaro/radio/download/index.js
+User=seotaro
+Group=seotaro
+WorkingDirectory=/home/seotaro/github/seotaro/radio/download
+ExecStart=node /home/seotaro/github/seotaro/radio/download/index.js
 
 [Install]
 WantedBy=multi-user.target
