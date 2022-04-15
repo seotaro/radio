@@ -53,8 +53,6 @@ METADATA_DATE=`date --date=@${NOW} '+%Y/%m/%d %H:%M:%S'`
 
 FILENAME="${PROGRAM_NAME} (`date --date=@${NOW} '+%Y%m%d_%H%M%S'`)"
 
-curl --silent ${M3U8URL} -o "${TMP}/${FILENAME}.m3u8"
-
 ffmpeg -loglevel quiet \
         -y -i ${M3U8URL} \
         -t ${DURATION} \
@@ -65,17 +63,12 @@ ffmpeg -loglevel quiet \
         -metadata date="${METADATA_DATE}" \
         -c copy "${TMP}/${FILENAME}.m4a"
 
-
-# エラー時にファイルを保存する。
 if [ $? -ne 0 ]; then
-  cp "${TMP}/${FILENAME}.m3u8" "${DIRECTORY}/${FILENAME}-before.m3u8"
-  curl --silent ${M3U8URL} -o "${DIRECTORY}/${FILENAME}-after.m3u8"
-  touch "${DIRECTORY}/${FILENAME}-error"
+    echo "failed download"
+    exit 1
 fi
 
 mkdir -p "${DIRECTORY}"
-cp "${TMP}/${FILENAME}.m4a" "${DIRECTORY}/${FILENAME}.m4a"
-rm -f "${TMP}/${FILENAME}.m4a"
-rm -f "${TMP}/${FILENAME}.m3u8"
+mv "${TMP}/${FILENAME}.m4a" "${DIRECTORY}/${FILENAME}.m4a"
 
 exit 0
