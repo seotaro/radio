@@ -64,8 +64,8 @@ ffmpeg -loglevel quiet \
         -c copy "${TMP}/${FILENAME}.m4a"
 
 if [ $? -ne 0 ]; then
-    echo "failed download"
-    exit 1
+  echo "failed download"
+  exit 1
 fi
 
 mkdir -p "${DIRECTORY}"
