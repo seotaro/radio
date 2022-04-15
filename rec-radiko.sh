@@ -27,10 +27,6 @@ DIRECTORY=$5
 TMP="/tmp/rec-radiko"
 mkdir -p ${TMP}
 
-# slack web hook URL
-WEBHOOK_URL="https://hooks.slack.com/services/xxxxxxxxx/xxxxxxxxxxx/xxxxxxxxxxxxxxxxxxxxxxxx"
-
-
 #
 # access auth1_fms
 #
@@ -136,14 +132,6 @@ ffmpeg -loglevel quiet \
   -metadata date="${METADATA_DATE}" \
   -t ${DURATION} \
   -c copy "${TMP}/${FILENAME}.m4a"
-
-# slack に投稿する。
-if [ $? -eq 0 ]; then
-  POST_MESSAGE="payload={\"channel\": \"#rec-radio\", \"username\": \"${HOSTNAME}\", \"text\": \"「${PROGRAM_NAME}（${FILENAME}.m4a）」を保存しました。\", \"icon_emoji\": \":smile:\"}"
-else
-  POST_MESSAGE="payload={\"channel\": \"#rec-radio\", \"username\": \"${HOSTNAME}\", \"text\": \"「${PROGRAM_NAME}（${FILENAME}.m4a）」の保存中にエラーが発生しました。\", \"icon_emoji\": \":scream:\"}"
-fi
-curl --silent -X POST --data-urlencode "${POST_MESSAGE}" ${WEBHOOK_URL}
 
 mkdir -p "${DIRECTORY}"
 cp "${TMP}/${FILENAME}.m4a" "${DIRECTORY}/${FILENAME}.m4a"
