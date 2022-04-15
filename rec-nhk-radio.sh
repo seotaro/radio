@@ -21,9 +21,6 @@ DIRECTORY=$5
 TMP="/tmp/rec-nhk-radio"
 mkdir -p ${TMP}
 
-# slack web hook URL
-WEBHOOK_URL="https://hooks.slack.com/services/xxxxxxxxx/xxxxxxxxxxx/xxxxxxxxxxxxxxxxxxxxxxxx"
-
 # チャンネルのURLをセットする。
 # http://www.nhk.or.jp/radio/config/config_web.xml を参照のこと。
 M3U8URL=""
@@ -75,14 +72,6 @@ if [ $? -ne 0 ]; then
   curl --silent ${M3U8URL} -o "${DIRECTORY}/${FILENAME}-after.m3u8"
   touch "${DIRECTORY}/${FILENAME}-error"
 fi
-
-# slack に投稿する。
-if [ $? -eq 0 ]; then
-  POST_MESSAGE="payload={\"channel\": \"#rec-radio\", \"username\": \"${HOSTNAME}\", \"text\": \"「${PROGRAM_NAME}（${FILENAME}.m4a）」を保存しました。\", \"icon_emoji\": \":smile:\"}"
-else
-  POST_MESSAGE="payload={\"channel\": \"#rec-radio\", \"username\": \"${HOSTNAME}\", \"text\": \"「${PROGRAM_NAME}（${FILENAME}.m4a）」の保存中にエラーが発生しました。\", \"icon_emoji\": \":scream:\"}"
-fi
-curl --silent -X POST --data-urlencode "${POST_MESSAGE}" ${WEBHOOK_URL}
 
 mkdir -p "${DIRECTORY}"
 cp "${TMP}/${FILENAME}.m4a" "${DIRECTORY}/${FILENAME}.m4a"
